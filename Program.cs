@@ -7,10 +7,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 string ConnectionString = builder.Configuration.GetConnectionString("Default")!;
 builder.Services.AddControllersWithViews();
+//adding database
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(ConnectionString));
-builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+//adding Identity
+builder.Services.AddDefaultIdentity<IdentityUser>(
+    (options) => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<AppDbContext>();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,10 +27,12 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapIdentityApi<IdentityUser>();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
+app.MapRazorPages();
 app.Run();

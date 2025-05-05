@@ -13,4 +13,8 @@ public class AppDbContext : IdentityDbContext<IdentityUser>
     {
         
     }
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+    }
 }
