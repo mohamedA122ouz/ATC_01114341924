@@ -28,7 +28,7 @@ public class HomeController : Controller
         var totalItems = await db.Events.CountAsync();
         var userRegisteredEventIds = currentUser.Events.Select(e => e.Id).ToHashSet();
 
-        List<EventCardDetails> cardsDetails = await db.Events.Include(ev=>ev.Images)
+        List<EventCardDetails> cardsDetails = await db.Events.Include(ev => ev.Images)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .Select(ev => new EventCardDetails
@@ -41,8 +41,17 @@ public class HomeController : Controller
         return View(cardsDetails);
     }
     [HttpGet("ThankYou")]
-    public IActionResult ThankYou()
+    public async Task<IActionResult> ThankYou(int evId)
     {
+        Events ev = db.Events.FirstOrDefault(e => e.Id == evId)!;
+        string username = User.Identity.Name!;
+        User? currentUser = await db.Users
+            .Include(u => u.Events)
+            .FirstOrDefaultAsync(u => u.UserName == username);
+        currentUser.Events.Add(ev);
+        db.Users.Update(currentUser);
+        db.SaveChanges();
+        _logger.LogInformation(ev.Name);
         return View();
     }
 

@@ -4,22 +4,26 @@
     <link rel="stylesheet" href="~/css/EventCard.css">
 </head>
 
-<div class="container-fluid">
-    <div class="row align-items-center cl_@Model.index">
+<div class="container-fluid cardContainer">
+    <div class="row align-items-center cl_@Model.Event.Id">
         <!-- Image column (now on left) -->
         <partial name="_imageContainer" model="@Model.Event.Images" />
         <!-- Text content column -->
         <div class="col-md-6 details">
             <h1 class="display-4 mb-4">@Model.Event.Name</h1>
-            <p class="lead mb-5">
+            @* <p class="lead mb-5">
                 @Model.Event.Description
-            </p>
+            </p> *@
 
             <!-- Stats section -->
             <div class="row mt-5">
-                <div class="col-4 registered">
+                <div class="col-4">
                     <div class="stat-number">@Model.Event.Users.Count()+</div>
                     <div class="stat-label">Registared</div>
+                </div>
+                <div class="col-4">
+                    <div class="stat-number">@Model.Event.Price L.E</div>
+                    <div class="stat-label">Price</div>
                 </div>
                 <div class="countdown-container">
                     <h3>Event Countdown </h3>
@@ -31,7 +35,7 @@
                     </div>
                 </div>
             </div>
-            <a href="/thankyou">
+            <a href="/thankyou?evId=@Model.Event.Id">
                 <button class="gradient-border-btn">
                     @{
                         var buttonText = Model.isRegister ? "Booked" : "Book Now";

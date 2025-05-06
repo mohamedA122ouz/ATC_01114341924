@@ -13,16 +13,13 @@
 <div class="text-center">
 
     @{
-        var counter = 1;
         foreach (var t in @Model)
         {
-            t.index = counter;
             <partial name="_EventCard" model=t />
             <script>
                 // Update every second
-                callTimer("@t.Event.Date","cl_@counter");
+                callTimer("@t.Event.Date","cl_@t.Event.Id");
             </script>
-            counter++;
         }
     }
 </div>

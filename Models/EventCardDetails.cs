@@ -6,5 +6,4 @@ public class EventCardDetails
 {
     public Events Event { get; set; } = new();
     public bool isRegister { get; set; } = false;
-    public int index { get; set; }
 }

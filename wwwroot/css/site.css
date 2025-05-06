@@ -11,15 +11,21 @@ html {
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
-
 html {
   position: relative;
   min-height: 100%;
 }
-
+.cardContainer{
+  background-color: white;
+  border-radius: 25px;
+  margin-top: 10px;
+  box-shadow: 0 0 12px -5px black;
+  padding:25px;
+}
 body {
   margin-bottom: 60px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: rgba(219, 219, 219, 0.301);
 }
 
 /* buttons */

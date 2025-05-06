@@ -87,6 +87,24 @@ public class AppDbContext : IdentityDbContext<User>
         Id = 2,
         Url = "/images/picnic.jpg",
         EventId = 2
+    },
+    new Images
+    {
+        Id = 3,
+        Url = "/images/picnic2.jpg",
+        EventId = 2
+    },
+    new Images
+    {
+        Id = 4,
+        Url = "/images/picnic3.jpg",
+        EventId = 2
+    },
+    new Images
+    {
+        Id = 5,
+        Url = "/images/picnic4.jpg",
+        EventId = 2
     }
 );
 

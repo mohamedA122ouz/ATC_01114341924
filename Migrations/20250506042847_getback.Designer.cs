@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eventsBook.Models;
 
@@ -11,9 +12,11 @@ using eventsBook.Models;
 namespace eventsBook.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250506042847_getback")]
+    partial class getback
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -273,7 +276,7 @@ namespace eventsBook.Migrations
                         {
                             Id = 1,
                             CategoryId = 6,
-                            Date = new DateTime(2025, 5, 26, 7, 59, 57, 126, DateTimeKind.Local).AddTicks(4694),
+                            Date = new DateTime(2025, 5, 26, 7, 28, 46, 589, DateTimeKind.Local).AddTicks(3973),
                             Description = "Join industry leaders, researchers, and developers at the forefront of artificial intelligence innovation. Discover how AI is transforming industries from healthcare to finance, and learn about the latest breakthroughs in machine learning, robotics, and ethics in AI.",
                             Name = "AI Future Summit 2025",
                             Price = 900.0,
@@ -324,24 +327,6 @@ namespace eventsBook.Migrations
                             Id = 2,
                             EventId = 2,
                             Url = "/images/picnic.jpg"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            EventId = 2,
-                            Url = "/images/picnic2.jpg"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            EventId = 2,
-                            Url = "/images/picnic3.jpg"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            EventId = 2,
-                            Url = "/images/picnic4.jpg"
                         });
                 });
 
