@@ -19,4 +19,46 @@ html {
 
 body {
   margin-bottom: 60px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* buttons */
+.gradient-border-btn {
+  position: relative;
+  background: white;
+  color: #2c3e50;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+  z-index: 1;
+  font-weight: 600;
+  transition: 250ms;
+}
+
+.gradient-border-btn:hover {
+  transform: scale(1.05);
+}
+.gradient-border-btn::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #3498db, #2ecc71, #e74c3c);
+  background-size: 200% 200%;
+  z-index: -1;
+  border-radius: 10px;
+  animation: gradient 3s ease infinite;
+}
+
+.gradient-border-btn:hover::before {
+  animation: gradient 3s ease infinite;
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }

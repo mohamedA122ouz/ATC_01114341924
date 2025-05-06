@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eventsBook.Models;
 
@@ -11,9 +12,11 @@ using eventsBook.Models;
 namespace eventsBook.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250505225234_changeUser Details and add other tables")]
+    partial class changeUserDetailsandaddothertables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -189,48 +192,6 @@ namespace eventsBook.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Arts & Culture"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Entertainment"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Education"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Political & Social"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Business & Networking"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "Tech & Innovation"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Name = "Health & Wellness"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Name = "Recreation"
-                        });
                 });
 
             modelBuilder.Entity("eventsBook.Models.Events", b =>
@@ -240,12 +201,6 @@ namespace eventsBook.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -262,33 +217,17 @@ namespace eventsBook.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("categoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("imagesId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("categoryId");
 
                     b.ToTable("Events");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CategoryId = 6,
-                            Date = new DateTime(2025, 5, 26, 3, 50, 14, 166, DateTimeKind.Local).AddTicks(3766),
-                            Description = "Join industry leaders, researchers, and developers at the forefront of artificial intelligence innovation. Discover how AI is transforming industries from healthcare to finance, and learn about the latest breakthroughs in machine learning, robotics, and ethics in AI.",
-                            Name = "AI Future Summit 2025",
-                            Price = 900.0,
-                            Venue = "TechHub Convention Center, San Francisco, CA"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CategoryId = 4,
-                            Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Relaxing day in the park with games and food.",
-                            Name = "Picnic for Families",
-                            Price = 5.0,
-                            Venue = "Green Field"
-                        });
                 });
 
             modelBuilder.Entity("eventsBook.Models.Images", b =>
@@ -311,20 +250,6 @@ namespace eventsBook.Migrations
                     b.HasIndex("EventId");
 
                     b.ToTable("Images");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            EventId = 1,
-                            Url = "/images/tech-expo.jpg"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            EventId = 2,
-                            Url = "/images/picnic.jpg"
-                        });
                 });
 
             modelBuilder.Entity("eventsBook.Models.User", b =>
@@ -460,13 +385,13 @@ namespace eventsBook.Migrations
 
             modelBuilder.Entity("eventsBook.Models.Events", b =>
                 {
-                    b.HasOne("eventsBook.Models.Category", "Category")
+                    b.HasOne("eventsBook.Models.Category", "category")
                         .WithMany()
-                        .HasForeignKey("CategoryId")
+                        .HasForeignKey("categoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Category");
+                    b.Navigation("category");
                 });
 
             modelBuilder.Entity("eventsBook.Models.Images", b =>

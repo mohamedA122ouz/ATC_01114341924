@@ -1,0 +1,100 @@
+
+
+.display-4 {
+    font-weight: 700;
+    line-height: 1.2;
+    color: #2c3e50;
+}
+
+.lead {
+    font-size: 1.25rem;
+    color: #7f8c8d;
+    line-height: 1.6;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #3498db;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+img {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.analytics-btn {
+    background: linear-gradient(135deg, #3498db, #2c3e50);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+    transition: all 0.3s ease;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.analytics-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+    background: linear-gradient(135deg, #2c3e50, #3498db);
+}
+
+.analytics-btn:active {
+    transform: translateY(0);
+}
+/* //register number */
+.registered{
+    height: fit-content;
+    margin: auto;
+}
+/* Timer */
+
+.countdown-container {
+    text-align: center;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 20px 0;
+    width: 65%;
+}
+.countdown-display {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #e74c3c;
+    background: #f9f9f9;
+    padding: 10px 20px;
+    border-radius: 8px;
+    display: inline-block;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.countdown-display span {
+    padding: 0 5px;
+}
+
+.blurred-background-container {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    opacity: 0.7; /* Adjust transparency */
+}
+.blurred-background-container {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+}
+/* /images */
+/* .carousel{
+    width: 400px;
+} */

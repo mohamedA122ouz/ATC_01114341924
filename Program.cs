@@ -10,7 +10,7 @@ builder.Services.AddControllersWithViews();
 //adding database
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(ConnectionString));
 //adding Identity
-builder.Services.AddDefaultIdentity<IdentityUser>(
+builder.Services.AddDefaultIdentity<User>(
     (options) => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<AppDbContext>();
 var app = builder.Build();
@@ -33,6 +33,6 @@ app.UseAuthorization();
 app.MapIdentityApi<IdentityUser>();
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}").RequireAuthorization();
 app.MapRazorPages();
 app.Run();

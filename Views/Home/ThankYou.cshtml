@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Thank You";
+}
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #4f46e5, #3b82f6);
+        color: white;
+        height: 100vh;
+    }
+
+    .thank-you-box {
+        background-color: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        padding: 40px 60px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .thank-you-box h1 {
+        font-size: 48px;
+        margin-bottom: 20px;
+        color: #fff;
+    }
+
+    .thank-you-box p {
+        font-size: 18px;
+        margin-bottom: 30px;
+        color: #d1d5db;
+    }
+
+    .thank-you-box a {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 12px 24px;
+        font-size: 16px;
+        background-color: #ffffff;
+        color: #3b82f6;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .thank-you-box a:hover {
+        background-color: #e0e7ff;
+    }
+
+    .checkmark {
+        font-size: 60px;
+        margin-bottom: 20px;
+        color: #10b981;
+    }
+</style>
+
+<div class="thank-you-box">
+    <div class="checkmark">✔</div>
+    <h1>Thank You!</h1>
+    <p>Your submission was successful. We appreciate your interest!</p>
+    <a href="/">Go to Homepage</a>
+</div>

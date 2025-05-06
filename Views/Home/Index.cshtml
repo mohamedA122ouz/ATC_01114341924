@@ -1,8 +1,28 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    @model List<eventsBook.Models.EventCardDetails>
 }
-
+<script src="/js/cardCounter.js"></script>
+<script>
+    function callTimer(time,selector) {
+        let endTime = new Date(time);
+        setInterval(() => updateCountdown(endTime, selector), 1000);
+        updateCountdown(endTime,selector); // Initial call
+    }
+</script>
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    @{
+        var counter = 1;
+        foreach (var t in @Model)
+        {
+            t.index = counter;
+            <partial name="_EventCard" model=t />
+            <script>
+                // Update every second
+                callTimer("@t.Event.Date","cl_@counter");
+            </script>
+            counter++;
+        }
+    }
 </div>
