@@ -1,0 +1,115 @@
+﻿@model eventsBook.Models.Events
+@{
+    var catigories = ViewData["catigories"] as List<Category>;
+    bool isEdit = true;
+    if (Model == null)
+    {
+        isEdit = false;
+    }
+}
+
+<h1>Create Product</h1>
+<hr>
+<style>
+    #imageLoader {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        cursor: pointer;
+        background: black;
+        color: white;
+        border-radius: 15px;
+    }
+
+    #imageLoader>img {
+        object-fit: contain;
+        width: 500px;
+        height: 500px;
+    }
+
+    #inputFields {
+        display: flex;
+        flex-direction: column;
+        grid-area: 1 / span 2
+    }
+
+    #inputForm {
+        display: grid;
+        grid-template-columns: auto auto auto;
+        gap: 10px;
+    }
+
+    button {
+        color: white;
+        border-radius: 20px;
+        background-color: #0d6efd;
+        outline: none;
+        cursor: pointer;
+        border: transparent;
+        height: 45px;
+    }
+</style>
+
+<form asp-action="@(isEdit ? "Edit" : "Create")" asp-controller="Admin" method="post" enctype="multipart/form-data"
+    id="inputForm">
+    @if (isEdit)
+    {
+        @Html.HiddenFor(m => m.Id)
+    }
+
+    <div id="inputFields">
+        <label for="CategoryId">Category</label>
+        <select asp-for="CategoryId" class="form-control"
+            asp-items="@(new SelectList(catigories, "Id", "Name", Model?.Category?.Id))">
+            <option value="">Select a category</option>
+        </select>
+        @Html.ValidationMessageFor(m => m.CategoryId, "", new { @class = "text-danger" })
+
+        <label for="Name">Event name</label>
+        <input type="text" id="Name" name="Name" value="@(isEdit? @Model?.Name:"")" />
+        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+
+        <label for="Description">Event description</label>
+        <textarea id="Description" name="Description">@(isEdit? @Model?.Description:"")</textarea>
+        @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+        <label for="EventDate">Event Date</label>
+        <input type="datetime-local" name="EventDate" id="EventDate"
+            value="@(isEdit?Model?.Date.ToString("yyyy-MM-ddTHH:mm"):"")" />
+        @Html.ValidationMessageFor(m => m.Date, "", new { @class = "text-danger" })
+        <label for="Price">Event price</label>
+        <input type="text" id="Price" name="Price" value="@(isEdit? @Model?.Price:"")" />
+        @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
+
+        <input type="file" name="ImageFile" style="visibility: hidden;" onchange="addImageToDOM()" />
+        @Html.ValidationMessage("ImageFile", "", new { @class = "text-danger" })
+
+        <button type="submit">@(isEdit ? "Edit" : "Create")</button>
+    </div>
+
+    <div onclick="select()" id="imageLoader">
+        <img src="@(isEdit && Model.Images != null && Model.Images.Count > 0 && Model.Images[0] != null 
+                                 ? Model.Images[0].Url 
+                                 : "https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=")"
+            alt="product image" />
+        <h3>Upload Image</h3>
+    </div>
+</form>
+
+
+<script>
+    const imageSelector = document.querySelector("input[type='file']");
+
+    function select() {
+        imageSelector.click();
+    }
+
+    function addImageToDOM() {
+        const image = document.querySelector("img");
+        const file = new FileReader();
+        file.readAsDataURL(imageSelector.files[0]);
+        file.addEventListener("load", () => {
+            image.src = file.result;
+        });
+    }
+</script>

@@ -1,15 +1,24 @@
 ﻿@model eventsBook.Models.EventCardDetails
 
-<head>
-    <link rel="stylesheet" href="~/css/EventCard.css">
-</head>
-
-<div class="container-fluid cardContainer">
+<script src="/js/cardCounter.js"></script>
+<script>
+    function callTimer(time, selector) {
+        let endTime = new Date(time);
+        setInterval(() => updateCountdown(endTime, selector), 1000);
+        updateCountdown(endTime, selector); // Initial call
+    }
+    // Update every second
+</script>
+<div class="container-fluid">
     <div class="row align-items-center cl_@Model.Event.Id">
+        <!-- Image column (now on left) -->
         <partial name="_imageContainer" model="@Model.Event.Images" />
         <!-- Text content column -->
         <div class="col-md-6 details">
             <h1 class="display-4 mb-4">@Model.Event.Name</h1>
+            <p class="lead mb-5">
+                @Model.Event.Description
+            </p>
 
             <!-- Stats section -->
             <div class="row mt-5">
@@ -31,23 +40,19 @@
                     </div>
                 </div>
             </div>
-            @if (Model.Event.Date > DateTime.Now)
-            {
-                var buttonText = Model.isRegister ? "Booked" : "Book Now";
-                var item = buttonText == "Booked" ? "#" :"/thankyou?evId=" + Model.Event.Id;
-                <a href= @item>
-                    <button class="gradient-border-btn">
-                        @buttonText
-                    </button>
-                </a>
-            }
-            <a href="details?i=@Model.Event.Id">
-                <button class="gradient-border-btn" style="margin-left:10px;">
-                    more details
+        </div>
+        @if (Model.Event.Date > DateTime.Now)
+        {
+            var buttonText = Model.isRegister ? "Booked" : "Book Now";
+            var item = buttonText == "Booked" ? "#" :"/thankyou?evId=" + Model.Event.Id;
+            <a href=@item>
+                <button class="gradient-border-btn" style="width:100%">
+                    @buttonText
                 </button>
             </a>
-        </div>
-
+        }
     </div>
-
+    <script>
+        callTimer("@Model.Event.Date", "cl_@Model.Event.Id");
+    </script>
 </div>
