@@ -6,7 +6,7 @@ namespace eventsBook.Models.HelperModels;
 
 public class EventInput
 {
-public int Id { get; set; }
+    public int Id { get; set; }
 
     [Required]
     public string Name { get; set; }
@@ -15,7 +15,7 @@ public int Id { get; set; }
     public string Description { get; set; }
 
     [Required]
-    public decimal Price { get; set; }
+    public double Price { get; set; }
 
     [Required]
     [Display(Name = "Event Date")]
@@ -24,11 +24,12 @@ public int Id { get; set; }
     [Required]
     public int CategoryId { get; set; }
 
-    public Category Category { get; set; }
+    // public Category Category { get; set; }
 
-    public List<Images> Images { get; set; }
+    // public List<Images> Images { get; set; }
 
     [NotMapped]
-    public IFormFile ImageFile { get; set; }
+    public List<IFormFile> ImageFile { get; set; }
+    public string Venue { get; set; }
 }
 

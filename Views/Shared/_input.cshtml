@@ -16,19 +16,28 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        cursor: pointer;
+        @* cursor: pointer; *@
         background: black;
         color: white;
         border-radius: 15px;
+        width: 48vw;
+        height: 48vh;
     }
-
-    #imageLoader>img {
-        object-fit: contain;
-        width: 500px;
-        height: 500px;
+    #uploadButton{
+        transition: 250ms;
     }
-
+    #uploadButton:hover{
+        cursor:pointer;
+        text-shadow: 0 0 15px white;
+    }
+    .carousel-control-next{
+        margin:auto;
+    }
+    .carousel-control-prev{
+        margin:auto;
+    }
     #inputFields {
+        width:40vw;
         display: flex;
         flex-direction: column;
         grid-area: 1 / span 2
@@ -49,6 +58,9 @@
         border: transparent;
         height: 45px;
     }
+    #carouselExample{
+        width: 75%;
+    }
 </style>
 
 <form asp-action="@(isEdit ? "Edit" : "Create")" asp-controller="Admin" method="post" enctype="multipart/form-data"
@@ -57,7 +69,7 @@
     {
         @Html.HiddenFor(m => m.Id)
     }
-
+    @Html.AntiForgeryToken()
     <div id="inputFields">
         <label for="CategoryId">Category</label>
         <select asp-for="CategoryId" class="form-control"
@@ -75,41 +87,86 @@
         @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
         <label for="EventDate">Event Date</label>
         <input type="datetime-local" name="EventDate" id="EventDate"
-            value="@(isEdit?Model?.Date.ToString("yyyy-MM-ddTHH:mm"):"")" />
+            value="@(isEdit? Model?.Date.ToString("yyyy-MM-ddTHH:mm"):"")" />
         @Html.ValidationMessageFor(m => m.Date, "", new { @class = "text-danger" })
+        <label for="Price">Venue</label>
+        <input type="text" id="Venue" name="Venue" value="@(isEdit? @Model?.Venue:"")" />
+        @Html.ValidationMessageFor(m => m.Venue, "", new { @class = "text-danger" })
         <label for="Price">Event price</label>
         <input type="text" id="Price" name="Price" value="@(isEdit? @Model?.Price:"")" />
         @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
 
-        <input type="file" name="ImageFile" style="visibility: hidden;" onchange="addImageToDOM()" />
+        <input type="file" multiple name="ImageFile" style="visibility: hidden;" onchange="addImageToDOM()" />
         @Html.ValidationMessage("ImageFile", "", new { @class = "text-danger" })
 
         <button type="submit">@(isEdit ? "Edit" : "Create")</button>
     </div>
 
-    <div onclick="select()" id="imageLoader">
-        <img src="@(isEdit && Model.Images != null && Model.Images.Count > 0 && Model.Images[0] != null 
-                                 ? Model.Images[0].Url 
-                                 : "https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=")"
-            alt="product image" />
-        <h3>Upload Image</h3>
+    <div id="imageLoader">
+        @* <img src="@(isEdit && Model.Images != null && Model.Images.Count > 0 && Model.Images[0] != null 
+                                                           ? Model.Images[0].Url 
+                                                           : "https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=")"
+            alt="product image" /> *@
+
+        @* start test *@
+
+        <div id="carouselExample" class="carousel slide col-md-6">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    @if(isEdit && Model.Images!=null && Model.Images.Count > 0){
+                        foreach (var img in Model.Images){
+                        <img src="@img.Url" alt="product image" class="d-block w-100" />
+                        }
+                    }else{
+                        <img src="https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ="
+                            alt="product image" class="d-block w-100" />
+                    }
+                </div>
+            </div>
+            <button class="carousel-control-prev" @*onclick="slide(this,'previous')"*@ type="button"
+                data-bs-target="#carouselExample" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" @*onclick="slide(this,'next')"*@ type="button"
+                data-bs-target="#carouselExample" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        @* end test *@
+
+        <h3 onclick="select()" id="uploadButton">Upload Image</h3>
     </div>
 </form>
 
 
 <script>
-    const imageSelector = document.querySelector("input[type='file']");
+const imageSelector = document.querySelector("input[type='file']");
 
-    function select() {
-        imageSelector.click();
-    }
+function select() {
+    imageSelector.click();
+}
 
-    function addImageToDOM() {
-        const image = document.querySelector("img");
+function addImageToDOM() {
+    const file = new FileReader();
+    const carousel = document.querySelector(".carousel-inner");
+    carousel.innerHTML = "";
+    [...imageSelector.files].forEach((el, i) => {
         const file = new FileReader();
-        file.readAsDataURL(imageSelector.files[0]);
+        file.readAsDataURL(el);
+        const newImg = document.createElement("img");
         file.addEventListener("load", () => {
-            image.src = file.result;
+            newImg.src = file.result;
+            const imageItem = document.createElement("div");
+            imageItem.classList.add("carousel-item");
+            if(i === 0)
+                imageItem.classList.add("active");
+            imageItem.appendChild(newImg);
+
+            carousel.appendChild(imageItem);
         });
-    }
+    });
+    
+}
 </script>

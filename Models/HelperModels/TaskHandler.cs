@@ -30,7 +30,7 @@ public class TaskHandler
     {
         var totalItems = await db.Events.CountAsync();
         var userRegisteredEventIds = currentUser.Events.Select(e => e.Id).ToHashSet();
-        Events eve = db.Events.Include(ev => ev.Images).FirstOrDefault(ev => ev.Id == evId);
+        Events eve = db.Events.Include(ev => ev.Images).Include(ev=>ev.Category).FirstOrDefault(ev => ev.Id == evId);
         EventCardDetails cardDetails = new();
         cardDetails.Event = eve;
         cardDetails.isRegister = userRegisteredEventIds.Contains(eve.Id);

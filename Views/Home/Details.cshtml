@@ -17,13 +17,29 @@
         <div class="col-md-6 details">
             <h1 class="display-4 mb-4">@Model.Event.Name</h1>
             <p class="lead mb-5">
+                @Model.Event.Category.Name
+            </p>
+            <p class="lead mb-5">
                 @Model.Event.Description
             </p>
 
             <!-- Stats section -->
             <div class="row mt-5">
                 <div class="col-4">
-                    <div class="stat-number">@Model.Event.Users.Count()+</div>
+                                        @{
+                        char ValueChar = ' ';
+                        int RegistaredNumber = Model.Event.Users.Count();
+                        if(RegistaredNumber>1000){
+                            ValueChar = 'K';
+                            RegistaredNumber /= 1000;
+                        }
+                        else if(RegistaredNumber>1000000){
+                            ValueChar = 'M';
+                            RegistaredNumber/=1000000;
+                        }
+                        
+                    }
+                    <div class="stat-number">@(ValueChar != ' '?RegistaredNumber+ValueChar.ToString()+'+':RegistaredNumber)</div>
                     <div class="stat-label">Registared</div>
                 </div>
                 <div class="col-4">

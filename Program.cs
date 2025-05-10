@@ -25,7 +25,6 @@ if (!app.Environment.IsDevelopment())
 }
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
 
 app.UseAuthentication();
@@ -61,6 +60,5 @@ using (var scope = app.Services.CreateScope())
         await userManager.AddToRoleAsync(adminUser, "Admin");
     }
 }
-
 
 app.Run();

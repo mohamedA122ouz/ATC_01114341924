@@ -1,4 +1,4 @@
-﻿function updateCountdown(endTime,selector) {
+﻿function updateCountdown(endTime, selector) {
     const now = new Date();
     const diff = endTime - now;
 
