@@ -73,4 +73,4 @@ _[Ss]cripts
 *.nupkg
 *.ncrunchsolution
 *.dot[Cc]over
-!eventsBook/wwwroot/images/IMG*
+!wwwroot/images/IMG*
