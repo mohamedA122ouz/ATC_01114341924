@@ -1,6 +1,8 @@
+using System.Text;
 using eventsBook.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,20 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Conn
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
+var secretKey = builder.Configuration["JwtSettings:SecretKey"];
+var key = Encoding.ASCII.GetBytes(secretKey);
+builder.Services.AddAuthentication().AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key) // Use your JWT key
+    };
+});
+
 
 var app = builder.Build();
 

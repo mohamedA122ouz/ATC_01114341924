@@ -1,16 +1,16 @@
 using eventsBook.Models;
 using eventsBook.Models.HelperModels;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace eventsBook.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("/api")]
     [ApiController]
-    [Authorize(Roles = "Admin, User")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class APIController : ControllerBase
     {
         private readonly ILogger<HomeController> _logger;
@@ -24,6 +24,19 @@ namespace eventsBook.Controllers
             tasks = new(db);
             this.userManager = userManager;
         }
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] loginModel model)
+        {
+            var user = await userManager.FindByEmailAsync(model.Email);
+            if (user != null && await userManager.CheckPasswordAsync(user, model.Password))
+            {
+                var token = JWTHelper.GenerateJwtToken(user.Id, user.Email, "^p0!Qv@8L#x*Yf3WzA6&N$kRbT1uJg9e");
+                return Ok(new { token });
+            }
+            return Unauthorized();
+        }
+
         [HttpGet("details")]
         public async Task<IActionResult> Details(int i)
         {
@@ -36,7 +49,9 @@ namespace eventsBook.Controllers
                 return Unauthorized();
 
             var ev = await tasks.GetEvent(currentUser, i);
-            return Ok(ev);
+            if (ev != null)
+                return Ok(ev);
+            return NotFound();
         }
         public async Task<IActionResult> Index(int page = 1, int pageSize = 10)
         {
@@ -63,7 +78,7 @@ namespace eventsBook.Controllers
             return isDone ? Ok("Booked") : BadRequest();
         }
         [HttpGet("MyEvents")]
-        public async Task<IActionResult> MyEvents()
+        public async Task<IActionResult> MyEvents(int page = 1, int pageSize = 10)
         {
             string username = User.Identity.Name!;
             User? currentUser = await db.Users
@@ -71,7 +86,7 @@ namespace eventsBook.Controllers
                 .FirstOrDefaultAsync(u => u.UserName == username);
             if (currentUser == null)
                 return Unauthorized();
-            return Ok(currentUser.Events);
+            return Ok(tasks.GetMyEvents(currentUser,page,pageSize,db));
         }
     }
 }

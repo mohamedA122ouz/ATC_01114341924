@@ -22,7 +22,7 @@
                 <div class="col-4">
                     @{
                         char ValueChar = ' ';
-                        int RegistaredNumber = Model.Event.Users.Count();
+                        int RegistaredNumber = Model.Event.count;
                         if(RegistaredNumber>1000){
                             ValueChar = 'K';
                             RegistaredNumber /= 1000;

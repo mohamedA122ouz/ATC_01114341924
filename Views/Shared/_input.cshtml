@@ -64,7 +64,7 @@
 </style>
 
 <form asp-action="@(isEdit ? "Edit" : "Create")" asp-controller="Admin" method="post" enctype="multipart/form-data"
-    id="inputForm">
+    id="inputForm" >
     @if (isEdit)
     {
         @Html.HiddenFor(m => m.Id)
@@ -76,40 +76,26 @@
             asp-items="@(new SelectList(catigories, "Id", "Name", Model?.Category?.Id))">
             <option value="">Select a category</option>
         </select>
-        @Html.ValidationMessageFor(m => m.CategoryId, "", new { @class = "text-danger" })
 
         <label for="Name">Event name</label>
         <input type="text" id="Name" name="Name" value="@(isEdit? @Model?.Name:"")" />
-        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
 
         <label for="Description">Event description</label>
         <textarea id="Description" name="Description">@(isEdit? @Model?.Description:"")</textarea>
-        @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
         <label for="EventDate">Event Date</label>
         <input type="datetime-local" name="EventDate" id="EventDate"
             value="@(isEdit? Model?.Date.ToString("yyyy-MM-ddTHH:mm"):"")" />
-        @Html.ValidationMessageFor(m => m.Date, "", new { @class = "text-danger" })
         <label for="Price">Venue</label>
         <input type="text" id="Venue" name="Venue" value="@(isEdit? @Model?.Venue:"")" />
-        @Html.ValidationMessageFor(m => m.Venue, "", new { @class = "text-danger" })
         <label for="Price">Event price</label>
         <input type="text" id="Price" name="Price" value="@(isEdit? @Model?.Price:"")" />
-        @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
 
         <input type="file" multiple name="ImageFile" style="visibility: hidden;" onchange="addImageToDOM()" />
-        @Html.ValidationMessage("ImageFile", "", new { @class = "text-danger" })
 
         <button type="submit">@(isEdit ? "Edit" : "Create")</button>
     </div>
 
     <div id="imageLoader">
-        @* <img src="@(isEdit && Model.Images != null && Model.Images.Count > 0 && Model.Images[0] != null 
-                                                           ? Model.Images[0].Url 
-                                                           : "https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=")"
-            alt="product image" /> *@
-
-        @* start test *@
-
         <div id="carouselExample" class="carousel slide col-md-6">
             <div class="carousel-inner">
                 <div class="carousel-item active">
@@ -123,12 +109,12 @@
                     }
                 </div>
             </div>
-            <button class="carousel-control-prev" @*onclick="slide(this,'previous')"*@ type="button"
+            <button class="carousel-control-prev" type="button"
                 data-bs-target="#carouselExample" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" @*onclick="slide(this,'next')"*@ type="button"
+            <button class="carousel-control-next" type="button"
                 data-bs-target="#carouselExample" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
@@ -142,6 +128,7 @@
 
 
 <script>
+    console.log("th");
 const imageSelector = document.querySelector("input[type='file']");
 
 function select() {
@@ -163,10 +150,59 @@ function addImageToDOM() {
             if(i === 0)
                 imageItem.classList.add("active");
             imageItem.appendChild(newImg);
-
             carousel.appendChild(imageItem);
         });
     });
     
 }
+
+document.getElementById("inputForm").addEventListener("submit", function (e) {
+    clearValidationErrors();
+
+    let isValid = true;
+
+    const getEl = id => document.getElementById(id);
+    const showError = (id, message) => {
+        isValid = false;
+        const msgEl = document.createElement("span");
+        msgEl.classList.add("text-danger");
+        msgEl.textContent = message;
+        getEl(id).insertAdjacentElement("afterend", msgEl);
+    };
+
+    const name = getEl("Name").value.trim();
+    const description = getEl("Description").value.trim();
+    const venue = getEl("Venue").value.trim();
+    const price = getEl("Price").value.trim();
+    const eventDate = getEl("EventDate").value;
+    const categoryId = document.querySelector("select[name='CategoryId']").value;
+    const isEdit = document.querySelector("input[name='Id']") !== null;
+    const images = imageSelector.files;
+
+    if (!name) showError("Name", "Name is required.");
+    if (!description) showError("Description", "Description is required.");
+    if (!venue) showError("Venue", "Venue is required.");
+    if (!price || isNaN(price)) showError("Price", "Valid price is required.");
+    if (!eventDate) showError("EventDate", "Event date is required.");
+    if (!categoryId) showError("CategoryId", "Category is required.");
+        if (!isEdit && images.length === 0) {
+            isValid = false;
+            const el = getEl("uploadButton");
+            el.classList.add("e");
+            el.innerText = "Please upload at least one image";
+            el.style.color = "red";
+    }
+    if (!isValid) e.preventDefault();
+});
+
+function clearValidationErrors() {
+    document.querySelectorAll(".text-danger").forEach(el => el.remove());
+    const i = document.querySelector(".e");
+    if(i){
+    i.innerText = "upload Image";
+    i.removeAttribute("style");
+    }
+}
+
+
 </script>

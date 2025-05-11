@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace eventsBook.Models;
 
@@ -17,8 +18,10 @@ public class Events
 
     // One-to-many: Event has many images
     public List<Images> Images { get; set; } = new();
+    public int count { get; set; } = 0;
 
     // Many-to-many: Users attending
+    [JsonIgnore]
     public List<User> Users { get; set; } = new();
 }
 
