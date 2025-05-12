@@ -292,11 +292,11 @@ dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer --version 8.0.1
 - ![alt text](RunTimeScreen/image-7.png)
 
 ### Regular User
-- ![alt text](image-8.png)
+- ![alt text](RunTimeScreen/image-8.png)
 
-- on booking ![alt text](image-9.png)
-- ![alt text](image-10.png)
-- More details ![alt text](image-11.png)
-- My Events ![alt text](image-12.png)
+- on booking ![alt text](RunTimeScreen/image-9.png)
+- ![alt text](RunTimeScreen/image-10.png)
+- More details ![alt text](RunTimeScreen/image-11.png)
+- My Events ![alt text](RunTimeScreen/image-12.png)
 
 > Application Support Events To have Multiple Images This
