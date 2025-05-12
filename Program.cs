@@ -25,7 +25,7 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
         ValidateAudience = false,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key) // Use your JWT key
+        IssuerSigningKey = new SymmetricSecurityKey(key) 
     };
 });
 
@@ -36,7 +36,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 app.UseHttpsRedirection();
@@ -72,7 +71,7 @@ using (var scope = app.Services.CreateScope())
     if (adminUser == null)
     {
         adminUser = new User { UserName = adminEmail, Email = adminEmail, EmailConfirmed = true };
-        await userManager.CreateAsync(adminUser, "Admin@123"); // ⚠️ use a secure password
+        await userManager.CreateAsync(adminUser, "Admin@123");
         await userManager.AddToRoleAsync(adminUser, "Admin");
     }
 }
