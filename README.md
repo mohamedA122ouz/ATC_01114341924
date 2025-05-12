@@ -23,6 +23,8 @@
     - [Running the Application](#running-the-application)
   - [Accounts (Admin Account)](#accounts-admin-account)
   - [RunTime Screen shots](#runtime-screen-shots)
+    - [Admin](#admin)
+    - [Regular User](#regular-user)
 
 ---
 
@@ -261,3 +263,23 @@ dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer --version 8.0.1
     - Password:`Admin@123`
 
 ## RunTime Screen shots
+### Admin
+
+- ![alt text](RunTimeScreen/image.png)
+- ![alt text](RunTimeScreen/image-1.png)
+- ![alt text](RunTimeScreen/image-2.png)
+- ![alt text](RunTimeScreen/image-3.png)
+- ![alt text](RunTimeScreen/image-4.png)
+- ![alt text](RunTimeScreen/image-5.png)
+- ![alt text](RunTimeScreen/image-6.png)
+- ![alt text](RunTimeScreen/image-7.png)
+
+### Regular User
+- ![alt text](image-8.png)
+
+- on booking ![alt text](image-9.png)
+- ![alt text](image-10.png)
+- More details ![alt text](image-11.png)
+- My Events ![alt text](image-12.png)
+
+> Application Support Events To have Multiple Images This
