@@ -10,12 +10,17 @@ public class TaskHandler
     {
         this.db = db;
     }
-    public async Task<List<EventCardDetails>> GetEvents(User currentUser, int page, int pageSize)
+    public double PagesCount(int page,int pageSize,int totalItems)
     {
-        // var totalItems = await db.Events.CountAsync();
+        return Math.Ceiling((double)totalItems / pageSize);
+    }
+    public List<EventCardDetails> GetEvents(User currentUser, int page, int pageSize, out double count)
+    {
+        var totalItems = db.Events.Count();
+        count = PagesCount(page, pageSize, totalItems);
         var userRegisteredEventIds = currentUser.Events.Select(e => e.Id).ToHashSet();
 
-        List<EventCardDetails> cardsDetails = await db.Events.Include(ev => ev.Images).Include(ev => ev.Users)
+        List<EventCardDetails> cardsDetails = db.Events.Include(ev => ev.Images).Include(ev => ev.Users)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .Select(ev => new EventCardDetails
@@ -23,7 +28,7 @@ public class TaskHandler
                 Event = ev,
                 isRegister = userRegisteredEventIds.Contains(ev.Id),
             })
-            .ToListAsync();
+            .ToList();
         return cardsDetails;
     }
     public async Task<List<EventCardDetails>> GetMyEvents(User currentUser, int page, int pageSize, AppDbContext db)

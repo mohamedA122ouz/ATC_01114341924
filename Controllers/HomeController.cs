@@ -39,11 +39,11 @@ public class HomeController : Controller
         var ev = await tasks.GetEvent(currentUser, i);
         if (ev == null)
             return View("Notfound");
-
         return View(ev);
     }
     public async Task<IActionResult> Index(int page = 1, int pageSize = 10)
     {
+        var totalItems = await db.Events.CountAsync();
         string username = User.Identity.Name!;
         User? currentUser = await db.Users
             .Include(u => u.Events)
@@ -56,13 +56,12 @@ public class HomeController : Controller
             ViewData["isAdmin"] = true;
         else
             ViewData["isAdmin"] = false;
-
-        var cardsDetails = await tasks.GetEvents(currentUser, page, pageSize);
+        var cardsDetails = tasks.GetEvents(currentUser, page, pageSize,out double PagesCount);
+        ViewData["pages"] = PagesCount;
         if (cardsDetails == null)
         {
             View("Notfound");
         }
-
         return View(cardsDetails);
     }
     [HttpGet("ThankYou")]
@@ -90,6 +89,7 @@ public class HomeController : Controller
         else
             ViewData["isAdmin"] = false;
 
+        ViewData["pages"] = tasks.PagesCount(page, pageSize, currentUser.Events.Count);
         return View("Index", await tasks.GetMyEvents(currentUser, page, pageSize, db));
     }
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

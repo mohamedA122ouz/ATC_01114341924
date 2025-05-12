@@ -63,9 +63,9 @@ namespace eventsBook.Controllers
             if (currentUser == null)
                 return Unauthorized();
 
-            var cardsDetails = await tasks.GetEvents(currentUser, page, pageSize);
+            var cardsDetails = tasks.GetEvents(currentUser, page, pageSize,out double PagesCount);
 
-            return Ok(cardsDetails);
+            return Ok(new { data = cardsDetails, PagesCount=PagesCount });
         }
         [HttpGet("Book")]
         public async Task<IActionResult> Book(int evId)
