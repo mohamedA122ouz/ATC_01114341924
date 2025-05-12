@@ -29,19 +29,23 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="MyEvents">My Events</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="MyEvents">My
+                                Events</a>
                         </li>
-                        @if (ViewData["isAdmin"]!=null && (bool)ViewData["isAdmin"] == true)
+                        @if (ViewData["isAdmin"] != null && (bool)ViewData["isAdmin"] == true)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Create">Create</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin"
+                                    asp-action="Create">Create</a>
                             </li>
                         }
+                        <li style="margin-left:auto;"></li>
+                        <li>
+                            <a class="nav-link text-dark" href="/Identity/Account/logout">Logout</a>
+                        </li>
                     </ul>
                 </div>
             </div>
-            <div style="margin-left:auto;"></div>
-            <a class="nav-link text-dark" href="/Identity/Account/logout">Logout</a>
         </nav>
     </header>
     <div class="container">
