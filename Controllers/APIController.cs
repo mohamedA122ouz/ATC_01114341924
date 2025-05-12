@@ -16,13 +16,15 @@ namespace eventsBook.Controllers
         private readonly ILogger<HomeController> _logger;
         private AppDbContext db;
         private TaskHandler tasks;
+        private readonly IConfiguration configuration;
         private readonly UserManager<User> userManager;
-        public APIController(ILogger<HomeController> logger, AppDbContext db, UserManager<User> userManager)
+        public APIController(ILogger<HomeController> logger, AppDbContext db, UserManager<User> userManager, IConfiguration configuration)
         {
             _logger = logger;
             this.db = db;
             tasks = new(db);
             this.userManager = userManager;
+            this.configuration = configuration;
         }
         [AllowAnonymous]
         [HttpPost("login")]
@@ -31,7 +33,7 @@ namespace eventsBook.Controllers
             var user = await userManager.FindByEmailAsync(model.Email);
             if (user != null && await userManager.CheckPasswordAsync(user, model.Password))
             {
-                var token = JWTHelper.GenerateJwtToken(user.Id, user.Email, "^p0!Qv@8L#x*Yf3WzA6&N$kRbT1uJg9e");
+                var token = JWTHelper.GenerateJwtToken(user.Id, user.Email, configuration["JwtSettings:SecretKey"]);
                 return Ok(new { token });
             }
             return Unauthorized();
