@@ -218,6 +218,23 @@ dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer --version 8.0.1
 
 ### Event Management
 
+- **POST `/api/login`**  
+  body Ex. 
+  ```json
+  {
+    "Username":"admin@example.com",
+    "Password":"Admin@123",
+    "Email":"admin@example.com"
+  }
+  ```
+  Receive:
+  ```json
+  {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3ODA1NGRlMi1jNzNiLTQwOGItYjJlYS1hMzkyM2NkOGFjODUiLCJlbWFpbCI6WyJhZG1pbkBleGFtcGxlLmNvbSIsImFkbWluQGV4YW1wbGUuY29tIl0sIm5hbWVpZCI6Ijc4MDU0ZGUyLWM3M2ItNDA4Yi1iMmVhLWEzOTIzY2Q4YWM4NSIsInVuaXF1ZV9uYW1lIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJuYmYiOjE3NDcwMjM2NjAsImV4cCI6MTc0NzAyNzI2MCwiaWF0IjoxNzQ3MDIzNjYwfQ.GOv4KraJ0q0mwvXFhKXp3g1KffDDZecZHl1J_i0QrdI"
+  }
+  ```
+  Add the following headers before 
+  `Authorization: Bearer <token-from-login>`
 - **GET `/api/details`**  
   Retrieves details of a specific event.  
   **Query Parameters**:  
