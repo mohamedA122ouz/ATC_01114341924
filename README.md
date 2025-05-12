@@ -91,6 +91,15 @@ The application uses SQL Server as its database. Follow these steps to configure
 
 2. **Set Authentication**:
    - The connection string in `appsettings.json` uses **Integrated Security**. Ensure your SQL Server is configured to allow Windows Authentication.
+  
+3. **Don't forget to change The appsetting.json connection string to much the SQL Server you run**
+   - ![alt text](image.png)
+   - This My SQL Server Name Which Match the appsttings.json so Edit appsettings.json to much your server name
+   - ```json
+       "ConnectionStrings": {
+        "Default": "server=PRIME\\SQLEXPRESS;user=PRIME\\Prime11;password=;Database=areeb;Integrated Security=True;TrustServerCertificate=True;"
+      },
+     ```
 
 ## 📦 EF Core Setup & Database Creation (for .NET 8 Projects)
 
